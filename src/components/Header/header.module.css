@@ -1,0 +1,29 @@
+.header {
+    background-color: whitesmoke;
+    width: 100vw;
+    /* height: 10%; */
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    grid-area: h;
+
+}
+
+.container {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
+}
+
+.leftside {
+    display: flex;
+    flex-direction: row;
+}
+
+.rightside {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
