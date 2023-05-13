@@ -2,39 +2,34 @@ import React from 'react';
 import style from './profile.module.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPosts from './MyPosts/MyPosts';
+import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../../redux/redux-store';
+import MyPostsContainer from './MyPosts/MyPostsContainer';
+import { ProfileDataType } from '../../../redux/profile-reducer';
 
 
 
 
-type PostsType = {
-  posts: PostType[]
-  newPost: string
-  dispatch: (action: any) => void
-  // addPost: () => void
-  // changeNewPost: (newValue: string) => void
-}
-
-type PostType = {
-  id: string
-  name: string
-  img: string
-  description: string
+type ProfileType = {
+  userProfile: ProfileDataType
 }
 
 
-const Profile = (props: PostsType) => {
+
+const Profile = (props: ProfileType) => {
   return (
     <div className={style.main}>
       <div className={style.banner}>
         <img src="https://vietnamdiscovery.com/wp-content/uploads/2021/01/Van-Long-Nature-Reserve.jpg" alt='error' />
       </div>
-      <ProfileInfo />
-      <MyPosts 
-      dispatch = {props.dispatch}
-      posts={props.posts}
-        // addPost={props.addPost}
-        newPost={props.newPost}
-        // changeNewPost={props.changeNewPost} 
+      <ProfileInfo userProfile={props.userProfile}/>
+      <MyPostsContainer 
+      
+      // store={props.store}
+      // dispatch = {props.dispatch}
+      // posts={props.posts}
+      //   addPost={props.addPost}
+      //   newPost={props.newPost}
+      //   changeNewPost={props.changeNewPost} 
         />
     </div>
 

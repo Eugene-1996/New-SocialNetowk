@@ -1,19 +1,31 @@
 import React from 'react';
 import style from './sideBar.module.css'
+import { SideBarType, StateType } from '../../../App';
+import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../../redux/redux-store';
+import { SideBarReducerType } from '../../../redux/sidebar-reducer';
 
 export type SideBarPropsType = {
-    id: string
-    name: string
-    img: string
+    sideBarData: SideBarType[]
+    
 }
 
+
 const SideBar = (props: SideBarPropsType) => {
-    return (
-        <div className={style.sideBar}>
-            <img src={props.img} alt='error'/>
-            <h4>{props.name}</h4>
+
+    const sideBarElements = props.sideBarData.map(s => {
+        return (
+            <div key={s.id} className={style.sideBar}>
+            <img src={s.img} alt='error' />
+            <h4>{s.name}</h4>
         </div>
-    );
+        )
+        })
+                return (
+                   <div>
+                    {sideBarElements}
+                   </div>   
+                )
+
 };
 
 export default SideBar;

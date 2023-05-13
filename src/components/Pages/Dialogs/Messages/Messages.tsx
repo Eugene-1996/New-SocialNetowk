@@ -1,19 +1,23 @@
 import React, { ChangeEvent } from 'react';
 import style from './messages.module.css'
-import { MessagesType } from '../../../../App';
+import { DialogsType, MessagesType } from '../../../../App';
+import { addMessageAC, setNewMessageAC } from '../../../../redux/dialogs-reducer';
+import { ActionsTypes, RootStoreType } from '../../../../redux/redux-store';
 
 type MessagesPropsType = {
-    messages: MessagesType[]
+    setNewMessage: (text: string) => void,
+    addNewMessage: () => void
     newMessage: string
-    // changeNewMessage: (newValue: string) => void
-    // addMessage:() => void
-    dispatch: (action: any) => void
+    // dialogs: DialogsType[]
+    messages: MessagesType[]
 
 }
 
 
 
+
 const Messages = (props: MessagesPropsType) => {
+
 
     const messagesElements = props.messages.map(u => {
         return (
@@ -22,13 +26,12 @@ const Messages = (props: MessagesPropsType) => {
     })
 
     const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let message = e.currentTarget.value
-        console.log(message)
-        props.dispatch({type: 'SET-NEW-MESSAGE', newMessage : message})
+        let text = e.currentTarget.value
+        props.setNewMessage(text)
     }
 
     const addMessage = () => {
-        props.dispatch({type: 'ADD-MESSAGE'})
+        props.addNewMessage()
     }
 
     return (

@@ -4,6 +4,10 @@ import Dialogs from './Dialogs/Dialogs';
 import { Route } from 'react-router-dom';
 import Settings from './Settings/Settings';
 import { StateType } from '../../App';
+import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../redux/redux-store';
+import DialogsContainer from './Dialogs/DialogsContainer';
+import UsersContainer from './Users/UserContainer';
+import ProfileContainer from './Profile/ProfileContainer';
 
 // type PostsType = {
 //     Posts : PostType[]
@@ -18,8 +22,8 @@ import { StateType } from '../../App';
 
 
 type PagesPropsType = {
-  state: StateType
-  dispatch: (action: any) => void
+  
+  // store: RootStoreType
   // addPost: () => void
   // changeNewPost: (newValue: string) => void
   // addMessage: () => void
@@ -29,23 +33,27 @@ type PagesPropsType = {
 const Pages = (props: PagesPropsType) => {
   return (
     <div >
-      <Route path='/profile' render={() => <Profile
-      dispatch = {props.dispatch}
-      posts={props.state.profileData.posts}
+      <Route path='/profile/:userId?' render={() => <ProfileContainer
+  
+      // store={props.store}
+      // dispatch = {props.dispatch}
+      // posts={props.state.profileData.posts}
         // addPost={props.addPost}
-        newPost={props.state.profileData.newPost}
+        // newPost={props.state.profileData.newPost}
       //   changeNewPost={props.changeNewPost} 
       />}
       />
-      <Route exact path='/dialogs' render={() => <Dialogs 
-        dispatch = {props.dispatch}
-        dialogs={props.state.dialogsData.dialogs}
-        messages={props.state.dialogsData.messages}
+      <Route path='/dialogs' render={() => <DialogsContainer 
+              // store={props.store}
+        // dispatch = {props.dispatch}
+        // dialogs={props.state.dialogsData.dialogs}
+        // messages={props.state.dialogsData.messages}
         // addMessage={props.addMessage}
-        newMessage={props.state.dialogsData.newMessage}
+        // newMessage={props.state.dialogsData.newMessage}
         // changeNewMessage={props.changeNewMessage} 
         />} />
       <Route path='/main' render={() => <Settings />} />
+      <Route path='/users' render={() => <UsersContainer />} />
     </div>
   );
 };

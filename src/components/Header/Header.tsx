@@ -3,13 +3,28 @@ import style from './header.module.css'
 import { BrowserRouter, NavLink, Route } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
+type HeaderType = {
+    isAuth: boolean
+    login: string
+}
 
-const Header = () => {
+
+
+const Header = (props: HeaderType) => {
+
+    
     return (
+        
         <div className={style.header}>
             <div className={style.container}>
                 <div className={style.leftside}>
                     <h4>SocialNetwork</h4>
+                </div>
+                <div className={style.loginBack}>
+                    
+                    {props.isAuth ? props.login
+                        : <NavLink to={'./login'}>Login</NavLink>
+                    }
                 </div>
                 {/* <div className={style.rightside}>
                 </div> */}

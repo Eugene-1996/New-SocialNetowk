@@ -2,16 +2,30 @@ import React from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Pages from './components/Pages/Pages';
-import { BrowserRouter } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
+import  { ActionsTypes, AppReduxStateType, RootStoreType } from './redux/redux-store';
+import profileReducer from './redux/profile-reducer';
+import sideBarReducer from './redux/sidebar-reducer';
+import dialogsReducer from './redux/dialogs-reducer';
+import HeaderContainer from './components/Header/HeaderContainer';
 
-type AppStatePropsType = {
-  state: StateType
+
+// export type StateReducersType = {
+//   profileData: profileReducer,
+// dialogsData: dialogsReducer,
+// sideBarData: sideBarReducer
+// }
+
+export type AppStatePropsType = {
+  // state: AppReduxStateType
+  // value: {
+  //   store: RootStoreType
+  // } 
   // addPost: () => void
   // changeNewPost: (newValue: string) => void
   // addMessage:() => void
   // changeNewMessage: (newValue: string) => void
-  dispatch: (action: any) => void
+  // dispatch: (action: ActionsTypes) => void
 }
 
 export type StateType = {
@@ -51,13 +65,15 @@ export type SideBarType = {
 
 function App(props: AppStatePropsType) {
   return (
-    <BrowserRouter>
       <div className='headnav'>
-        <Header />
-        <Navigation sideBar={props.state.sideBarData}/>
+        <HeaderContainer />
+        <Navigation 
+        // sideBar={props.state.sideBarData.sideBarData} 
+        // dispatch={props.dispatch}
+        />
         <div className='maincontent'>
-          <Pages state={props.state} 
-            dispatch={props.dispatch}
+          <Pages 
+            // store={props.store}
          // addPost={props.addPost} 
           // addMessage={props.addMessage} 
           // changeNewPost={props.changeNewPost} 
@@ -65,7 +81,6 @@ function App(props: AppStatePropsType) {
           />
         </div>
       </div>
-    </BrowserRouter>
   );
 }
 

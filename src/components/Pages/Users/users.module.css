@@ -1,0 +1,10 @@
+.selectedPage {
+    font-weight: 900;
+    color: black;
+
+}
+
+.profileImage img{
+    width: 100px;
+    height: 100px;
+}
