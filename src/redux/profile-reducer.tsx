@@ -1,5 +1,7 @@
+import { Dispatch } from "redux";
 import { PostType } from "../App";
 import { ActionsTypes } from "./redux-store";
+import { profileAPI } from "../api/API";
 
 
 type ProfileReducerType = {
@@ -93,6 +95,7 @@ let initialState: ProfileReducerType = {
         }
     }
 }
+console.log(initialState)
 
 const profileReducer = (state: ProfileReducerType = initialState, action: ActionsTypes) : ProfileReducerType => {
     switch (action.type) {
@@ -144,3 +147,12 @@ const profileReducer = (state: ProfileReducerType = initialState, action: Action
     export const setUserProfileAC = (profile : ProfileDataType) : SetNewProfileTypeAC => ({ type: SET_USER_PROFILE, profile})
 
 
+    export const getUsersProfileThunkCreator = (userId: string) => {
+        return (dispatch: Dispatch) => {
+            profileAPI.getUsersProfile(userId)
+                .then(data => {
+                    console.log(data)
+                    dispatch(setUserProfileAC(data))
+                })
+        }
+    }

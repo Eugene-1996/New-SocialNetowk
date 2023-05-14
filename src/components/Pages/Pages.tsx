@@ -8,6 +8,7 @@ import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../redux/redu
 import DialogsContainer from './Dialogs/DialogsContainer';
 import UsersContainer from './Users/UserContainer';
 import ProfileContainer from './Profile/ProfileContainer';
+import Login from './Login/Login';
 
 // type PostsType = {
 //     Posts : PostType[]
@@ -52,8 +53,9 @@ const Pages = (props: PagesPropsType) => {
         // newMessage={props.state.dialogsData.newMessage}
         // changeNewMessage={props.changeNewMessage} 
         />} />
-      <Route path='/main' render={() => <Settings />} />
+      <Route path='/main' render={() =>  <Settings />} />
       <Route path='/users' render={() => <UsersContainer />} />
+      <Route path='/login' render={() => <Login />}/>
     </div>
   );
 };

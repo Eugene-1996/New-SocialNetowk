@@ -59,6 +59,7 @@ type MapStateToPropsType = {
         dialogs: DialogsType[]
         messages: MessagesType[]
         newMessage: string
+        isAuth: boolean
 }
 
 
@@ -66,11 +67,12 @@ let MapStateToProps = (state: AppReduxStateType) : MapStateToPropsType => {
     return {
         dialogs: state.dialogsData.dialogs,
         messages: state.dialogsData.messages,
-        newMessage: state.dialogsData.newMessage
+        newMessage: state.dialogsData.newMessage,
+        isAuth: state.authData.isAuth
     }
 }
 
-
+// alert()
 
 
 let MapDispatchToProps = (dispatch: Dispatch) : MapDispatchToPropsType => {

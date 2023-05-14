@@ -4,6 +4,7 @@ import Messages from './Messages/Messages';
 import DialogItem from './DialogItem/DialogItem';
 import { DialogsType, MessagesType } from '../../../App';
 import { ActionsTypes, RootStoreType } from '../../../redux/redux-store';
+import { Redirect } from 'react-router-dom';
 
 
 // type DialogsPropsType = {
@@ -26,6 +27,7 @@ type MapStateToPropsType = {
         dialogs: DialogsType[]
         messages: MessagesType[]
         newMessage: string
+        isAuth: boolean
 }
 
 type DialogsPropsType = MapDispatchToPropsType & MapStateToPropsType
@@ -33,6 +35,10 @@ type DialogsPropsType = MapDispatchToPropsType & MapStateToPropsType
 
 
 const Dialogs = (props: DialogsPropsType) => {
+
+
+    if(props.isAuth === false) return <Redirect to={'/login'}/>
+
     return (
 
 
