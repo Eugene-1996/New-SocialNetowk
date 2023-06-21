@@ -2,7 +2,7 @@ import React from 'react';
 import style from './profile.module.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPosts from './MyPosts/MyPosts';
-import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../../redux/redux-store';
+import {  AppReduxStateType, RootStoreType } from '../../../redux/redux-store';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
 import { ProfileDataType } from '../../../redux/profile-reducer';
 
@@ -11,6 +11,8 @@ import { ProfileDataType } from '../../../redux/profile-reducer';
 
 type ProfileType = {
   userProfile: ProfileDataType
+  status: string
+  updateStatus: (status: string) => void
 }
 
 
@@ -21,7 +23,7 @@ const Profile = (props: ProfileType) => {
       <div className={style.banner}>
         <img src="https://vietnamdiscovery.com/wp-content/uploads/2021/01/Van-Long-Nature-Reserve.jpg" alt='error' />
       </div>
-      <ProfileInfo userProfile={props.userProfile}/>
+      <ProfileInfo userProfile={props.userProfile} status={props.status} updateStatus={props.updateStatus}/>
       <MyPostsContainer 
       
       // store={props.store}

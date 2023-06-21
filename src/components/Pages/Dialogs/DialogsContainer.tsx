@@ -3,12 +3,13 @@ import style from './dialogs.module.css'
 import Messages from './Messages/Messages';
 import DialogItem from './DialogItem/DialogItem';
 import { DialogsType, MessagesType, StateType } from '../../../App';
-import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../../redux/redux-store';
+import {  AppReduxStateType } from '../../../redux/redux-store';
 
 import Dialogs from './Dialogs';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { addMessageAC, setNewMessageAC } from '../../../redux/dialogs-reducer';
+import { Dispatch, compose } from 'redux';
+import { addMessageAC } from '../../../redux/dialogs-reducer';
+import { withAuthRedirect } from '../../../hoc/AuthRedirect';
 
 
 // type DialogsPropsType = {
@@ -26,10 +27,10 @@ import { addMessageAC, setNewMessageAC } from '../../../redux/dialogs-reducer';
 
 // const DialogsContainer = (props: DialogsPropsType) => {
 
-    
+
 
 //     return (
-        
+
 //         <div>
 //         <Dialogs/>
 //         </div>
@@ -51,36 +52,43 @@ import { addMessageAC, setNewMessageAC } from '../../../redux/dialogs-reducer';
 // }
 
 type MapDispatchToPropsType = {
-    setNewMessage: (text: string) => void,
-    addNewMessage: () => void
+    // setNewMessage: (text: string) => void,
+    addNewMessage: (newMessageBody: string) => void
 }
 
 type MapStateToPropsType = {
-        dialogs: DialogsType[]
-        messages: MessagesType[]
-        newMessage: string
-        isAuth: boolean
+    dialogs: DialogsType[]
+    messages: MessagesType[]
+    // newMessage: string
+    // isAuth: boolean
 }
 
 
-let MapStateToProps = (state: AppReduxStateType) : MapStateToPropsType => {
+let MapStateToProps = (state: AppReduxStateType): MapStateToPropsType => {
     return {
         dialogs: state.dialogsData.dialogs,
         messages: state.dialogsData.messages,
-        newMessage: state.dialogsData.newMessage,
-        isAuth: state.authData.isAuth
+        // newMessage: state.dialogsData.newMessage,
+        // isAuth: state.authData.isAuth
     }
 }
 
 // alert()
 
 
-let MapDispatchToProps = (dispatch: Dispatch) : MapDispatchToPropsType => {
+let MapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
-        setNewMessage : (text: string) => dispatch(setNewMessageAC(text)),
-        addNewMessage: () => dispatch(addMessageAC())
+        // setNewMessage: (text: string) => dispatch(setNewMessageAC(text)),
+        addNewMessage: (newMessageBody: string) => dispatch(addMessageAC(newMessageBody))
     }
 }
-const DialogsContainer = connect(MapStateToProps, MapDispatchToProps)(Dialogs)
 
-export default DialogsContainer;
+// let AuthRedirectComponent = withAuthRedirect(Dialogs)
+
+
+// const DialogsContainer = connect(MapStateToProps, MapDispatchToProps)(AuthRedirectComponent)
+
+export default compose<React.FC>(
+    connect(MapStateToProps, MapDispatchToProps),
+    withAuthRedirect
+)(Dialogs)

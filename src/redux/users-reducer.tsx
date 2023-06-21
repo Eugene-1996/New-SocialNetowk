@@ -1,7 +1,7 @@
 import { Dispatch } from "redux"
-import { ActionsTypes } from "./redux-store"
 import { userAPI } from "../api/API"
 import axios from "axios"
+import { AppActionsTypes } from "./redux-store"
 
 
 
@@ -52,7 +52,7 @@ type UsersReducerType = {
     followingInProgress: number[]
 }
 
-export const usersReducer = (state: UsersReducerType = initialState, action: ActionsTypes): UsersReducerType => {
+export const usersReducer = (state: UsersReducerType = initialState, action: UsersActionsType): UsersReducerType => {
 
     switch (action.type) {
         case FOLLOW_USER: {
@@ -86,59 +86,60 @@ export const usersReducer = (state: UsersReducerType = initialState, action: Act
 
 }
 
-type FollowACType = {
-    type: typeof FOLLOW_USER
-    userId: number
-}
-type UnfollowACType = {
-    type: typeof UNFOLLOW_USER
-    userId: number
-}
+// type FollowACType = {
+//     type: typeof FOLLOW_USER
+//     userId: number
+// }
+// type UnfollowACType = {
+//     type: typeof UNFOLLOW_USER
+//     userId: number
+// }
 
-type SetUsersACType = {
-    type: typeof SET_USERS
-    users: UserType[]
+// type SetUsersACType = {
+//     type: typeof SET_USERS
+//     users: UserType[]
 
-}
+// }
 
-type SetCurrentPageType = {
-    type: typeof SET_CURRENT_PAGE
-    currentPage: number
+// type SetCurrentPageType = {
+//     type: typeof SET_CURRENT_PAGE
+//     currentPage: number
 
-}
+// }
 
-type SetTotalUsersCountType = {
-    type: typeof SET_TOTAL_USERS_COUNT
-    total: number
-}
+// type SetTotalUsersCountType = {
+//     type: typeof SET_TOTAL_USERS_COUNT
+//     total: number
+// }
 
-type ChangeIsFetchingACType = {
-    type: typeof CHANGE_IS_FETCHING
-    value: boolean
-}
+// type ChangeIsFetchingACType = {
+//     type: typeof CHANGE_IS_FETCHING
+//     value: boolean
+// }
 
-type ChangeFollowingInProgressACType = {
-    type: typeof FOLLOWING_IN_PROGRESS,
-    value: boolean
-    userId: number
-}
+// type ChangeFollowingInProgressACType = {
+//     type: typeof FOLLOWING_IN_PROGRESS,
+//     value: boolean
+//     userId: number
+// }
 
+export type UsersActionsType = ReturnType<typeof followUser> | ReturnType<typeof unFollowUser> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof changeIsFetching> | ReturnType<typeof changeFollowingInProgress>
 
-export const followUser = (userId: number): FollowACType => {
+export const followUser = (userId: number) => {
     return {
         type: FOLLOW_USER,
         userId
     } as const
 }
 
-export const unFollowUser = (userId: number): UnfollowACType => {
+export const unFollowUser = (userId: number) => {
     return {
         type: UNFOLLOW_USER,
         userId
     } as const
 }
 
-export const setUsers = (users: UserType[]): SetUsersACType => {
+export const setUsers = (users: UserType[]) => {
     return {
         type: SET_USERS,
         users
@@ -146,7 +147,7 @@ export const setUsers = (users: UserType[]): SetUsersACType => {
 }
 
 
-export const setCurrentPage = (currentPage: number): SetCurrentPageType => {
+export const setCurrentPage = (currentPage: number) => {
     return {
         type: SET_CURRENT_PAGE,
         currentPage
@@ -154,21 +155,21 @@ export const setCurrentPage = (currentPage: number): SetCurrentPageType => {
 }
 
 
-export const setTotalUsersCount = (total: number): SetTotalUsersCountType => {
+export const setTotalUsersCount = (total: number) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         total
     } as const
 }
 
-export const changeIsFetching = (value: boolean): ChangeIsFetchingACType => {
+export const changeIsFetching = (value: boolean) => {
     return {
         type: CHANGE_IS_FETCHING,
         value
     } as const
 }
 
-export const changeFollowingInProgress = (value: boolean, userId: number): ChangeFollowingInProgressACType => {
+export const changeFollowingInProgress = (value: boolean, userId: number) => {
     return {
         type: FOLLOWING_IN_PROGRESS,
         value,
@@ -192,13 +193,13 @@ export const changeFollowingInProgress = (value: boolean, userId: number): Chang
 //     }
 // }
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
-    return (dispatch: Dispatch) => {
+export const getUsersThunkCreator = (page: number, pageSize: number) => {
+    return (dispatch: Dispatch<UsersActionsType>) => {
         // debugger
 
         dispatch(changeIsFetching(true))
-        dispatch(setCurrentPage(currentPage))
-        userAPI.getUsers(currentPage, pageSize)
+        dispatch(setCurrentPage(page))
+        userAPI.getUsers(page, pageSize)
             .then(data => {
                 dispatch(changeIsFetching(false))
                 dispatch(setUsers(data.items))
@@ -210,7 +211,7 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
 
 export const followThunk = (userId: number) => {
     // debugger
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch<UsersActionsType>) => {
         dispatch(changeFollowingInProgress(true, userId))
         userAPI.followUser(userId)
             .then(response => {
@@ -227,7 +228,7 @@ export const followThunk = (userId: number) => {
 
 export const unFollowThunk = (userId: number) => {
     // debugger
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch<UsersActionsType>) => {
         dispatch(changeFollowingInProgress(true, userId))
         userAPI.unFollowUser(userId)
             .then(response => {

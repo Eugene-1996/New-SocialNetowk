@@ -1,15 +1,14 @@
 import { DialogsType, MessagesType } from "../App"
-import { ActionsTypes } from "./redux-store"
+import { AppActionsTypes } from "./redux-store"
 
 
 type DialogsReducerType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
-    newMessage: string
 }
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
-const SET_NEW_MESSAGE = 'SET-NEW-MESSAGE'
+// const SET_NEW_MESSAGE = 'SET-NEW-MESSAGE'
 
 
 let initialState: DialogsReducerType = {
@@ -49,24 +48,25 @@ let initialState: DialogsReducerType = {
             message: 'Lol'
         }
     ],
-    newMessage: ''
+    // newMessage: ''
 }
 
-const dialogsReducer = (state: DialogsReducerType = initialState, action: ActionsTypes): DialogsReducerType => {
+const dialogsReducer = (state: DialogsReducerType = initialState, action: DialogsActionsType): DialogsReducerType => {
     switch (action.type) {
         case ADD_MESSAGE: 
-            let newMessage = {
-                id: String(Math.floor(Math.random() * 12234)),
-                message: state.newMessage
-            }
-            return  { ...state, newMessage: '', messages: [...state.messages, newMessage]}
+            // let newMessage = {
+            //     id: String(Math.floor(Math.random() * 12234)),
+            //     message: state.newMessage
+            // }
+            let body = action.newMessageBody
+            return  { ...state, messages: [...state.messages, {id: String(Math.floor(Math.random() * 12234)), message: body}]}
             // stateCopy.messages = [...stateCopy.messages]
             // stateCopy.messages.push(newMessage)
             // stateCopy.newMessage = ''
             // return stateCopy
         
-        case SET_NEW_MESSAGE: 
-           return { ...state, newMessage: action.newMessage }
+        // case SET_NEW_MESSAGE: 
+        //    return { ...state, newMessage: action.newMessage }
             // stateCopy.newMessage = action.newMessage
             // return stateCopy
         
@@ -78,15 +78,18 @@ const dialogsReducer = (state: DialogsReducerType = initialState, action: Action
 export default dialogsReducer
 
 
-type AddPostAC = {
-    type: typeof ADD_MESSAGE
-}
+// type AddPostAC = {
+//     type: typeof ADD_MESSAGE
+//     newMessageBody: string
+// }
 
-type SetNewPostAC = {
-    type: typeof SET_NEW_MESSAGE
-    newMessage: string
-}
+// type SetNewPostAC = {
+//     type: typeof SET_NEW_MESSAGE
+//     newMessage: string
+// }
 
-export const addMessageAC = (): AddPostAC => ({ type: ADD_MESSAGE })
+export type DialogsActionsType = ReturnType<typeof addMessageAC>
 
-export const setNewMessageAC = (text: string): SetNewPostAC => ({ type: SET_NEW_MESSAGE, newMessage: text })
+export const addMessageAC = (newMessageBody: string) => ({ type: ADD_MESSAGE, newMessageBody} as const )
+
+// export const setNewMessageAC = (text: string): SetNewPostAC => ({ type: SET_NEW_MESSAGE, newMessage: text })

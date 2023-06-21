@@ -2,11 +2,17 @@ import axios from "axios"
 import { DataPropsType } from "../redux/users-reducer"
 
 
+type UpdateUserStatusType = {
+    resultCode: number
+    messages: string[],
+    data: {}
+}
+
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
-        'API-KEY': 'c6dbaf3a-52af-49fb-993f-71adb5fbbb02'
+        'API-KEY': '0209cd4d-6767-455b-a3ea-cba2c263eee1'   
     }
 })
 
@@ -35,7 +41,6 @@ export const userAPI = {
         return instance.delete(`follow/${userId}`)
         // .then(response => response.data)
     }
-
 }
 
 
@@ -46,7 +51,16 @@ export const profileAPI = {
             .then(response => {
                 return response.data
             })
+    },
+
+    getUserStatus(userId: string) {
+        return instance.get(`profile/status/${userId}`)
+    },
+
+    updateUserStatus(status: string) {
+        return instance.put(`profile/status/`, {status: status})
     }
+
 }
 
 
@@ -54,8 +68,15 @@ export const authAPI = {
     getAuthUser(){
         return instance.get(`auth/me`)
         .then(response => {
+            console.log(response)
            return response.data
         })
+    },
+    login(email: string, password: string, remeberMe : boolean = false){
+        return instance.post(`auth/login`, {email, password, remeberMe})
+    },
+    logout(){
+        return instance.delete('auth/login')
     }
 }
 

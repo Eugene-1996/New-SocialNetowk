@@ -1,5 +1,5 @@
 import { SideBarType } from "../App"
-import { ActionsTypes } from "./redux-store"
+import { AppActionsTypes } from "./redux-store"
 
 export type SideBarReducerType = {
     sideBarData: SideBarType[]
@@ -31,7 +31,7 @@ let initialState = {
 }
     
 
-const sideBarReducer = (state : SideBarReducerType = initialState, action: ActionsTypes) : SideBarReducerType => {
+const sideBarReducer = (state : SideBarReducerType = initialState, action: AppActionsTypes) : SideBarReducerType => {
     return state
 }
 

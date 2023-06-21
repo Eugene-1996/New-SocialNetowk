@@ -1,6 +1,6 @@
 import { StateType } from "../App"
-import dialogsReducer, { addMessageAC, setNewMessageAC } from "./dialogs-reducer"
-import profileReducer, {  addPostAC, setNewPostAC } from "./profile-reducer"
+import dialogsReducer, { addMessageAC } from "./dialogs-reducer"
+import profileReducer, {  addPostAC } from "./profile-reducer"
 
 
 // let rerenderEntireTree = (state: StateType) => {

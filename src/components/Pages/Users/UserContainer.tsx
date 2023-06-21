@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppReduxStateType } from "../../../redux/redux-store";
-import { Dispatch } from "redux";
-import { DataPropsType, UserType, changeFollowingInProgress,  changeIsFetching,  followThunk,  followUser,   getUsersThunkCreator,  setCurrentPage,   setTotalUsersCount, setUsers,  unFollowThunk,  unFollowUser,    } from "../../../redux/users-reducer";
+import { Dispatch, compose } from "redux";
+import { DataPropsType, UserType, changeFollowingInProgress, changeIsFetching, followThunk, followUser, getUsersThunkCreator, setCurrentPage, setTotalUsersCount, setUsers, unFollowThunk, unFollowUser, } from "../../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../../../common/Preloader/Preloader";
-import {   userAPI } from "../../../api/API";
+import { userAPI } from "../../../api/API";
+import { withAuthRedirect } from "../../../hoc/AuthRedirect";
+import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from "../../../redux/users-selectors";
 
 
 type MapStateToProps = {
@@ -15,7 +17,7 @@ type MapStateToProps = {
     currentPage: number
     isFetching: boolean
     followingInProgress: number[]
-    
+
 }
 
 type MapDispatchToProps = {
@@ -63,7 +65,7 @@ class UsersContainer extends React.Component<UserPropsType>{
         // this.props.setCurrentPage(currentPage)
         // userAPI.getUsers(currentPage, this.props.pageSize)
         //     .then((data: DataPropsType) => {
-                
+
         //         this.props.setUsers(data.items)
         //         this.props.changeIsFetching(false)
         //     })
@@ -88,9 +90,9 @@ class UsersContainer extends React.Component<UserPropsType>{
                     // unFollowUser={this.props.unFollowUser}
                     onPagedChanged={this.onPagedChanged}
                     // changeFollowingInProgress={this.props.changeFollowingInProgress}
-                    followingInProgress= {this.props.followingInProgress}
-                    followThunk= {this.props.followThunk}
-                    unFollowThunk= {this.props.unFollowThunk}
+                    followingInProgress={this.props.followingInProgress}
+                    followThunk={this.props.followThunk}
+                    unFollowThunk={this.props.unFollowThunk}
                 />
             </>
         )
@@ -101,13 +103,12 @@ class UsersContainer extends React.Component<UserPropsType>{
 
 let MapStateToProps = (state: AppReduxStateType): MapStateToProps => {
     return {
-        users: state.usersData.usersData,
-        pageSize: state.usersData.pageSize,
-        totalUsersCount: state.usersData.totalUsersCount,
-        currentPage: state.usersData.currentPage,
-        isFetching: state.usersData.isFetching,
-        followingInProgress: state.usersData.followingInProgress
-
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
@@ -128,17 +129,22 @@ let MapStateToProps = (state: AppReduxStateType): MapStateToProps => {
 
 
 
-export default connect(MapStateToProps, 
-    {
-        // unFollowUser: unFollowUser,
-        // followUser: followUser,
-        // setUsers: setUsers,
-        // setCurrentPage: setCurrentPage,
-        // setTotalUsersCount: setTotalUsersCount,
-        changeIsFetching: changeIsFetching,
-        // changeFollowingInProgress: changeFollowingInProgress,
-        getUsersThunkCreator: getUsersThunkCreator,
-        followThunk: followThunk,
-        unFollowThunk: unFollowThunk
+export default compose<React.FC>(
+    connect(MapStateToProps,
+        {
+            // unFollowUser: unFollowUser,
+            // followUser: followUser,
+            // setUsers: setUsers,
+            // setCurrentPage: setCurrentPage,
+            // setTotalUsersCount: setTotalUsersCount,
+            changeIsFetching: changeIsFetching,
+            // changeFollowingInProgress: changeFollowingInProgress,
+            getUsersThunkCreator: getUsersThunkCreator,
+            followThunk: followThunk,
+            unFollowThunk: unFollowThunk
 
-    })(UsersContainer)
+        }
+    ),
+    // withAuthRedirect
+)   
+(UsersContainer)

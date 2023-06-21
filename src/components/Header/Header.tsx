@@ -2,27 +2,33 @@ import React from 'react';
 import style from './header.module.css'
 import { BrowserRouter, NavLink, Route } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
+import { AppThunkType } from '../../redux/redux-store';
+import { TestType } from './HeaderContainer';
 
 type HeaderType = {
     isAuth: boolean
     login: string
+    logout: () => void
 }
 
 
 
-const Header = (props: HeaderType) => {
+const Header = (props: any) => {
 
-    
+    console.log(props.login)
     return (
-        
+
         <div className={style.header}>
             <div className={style.container}>
                 <div className={style.leftside}>
                     <h4>SocialNetwork</h4>
                 </div>
                 <div className={style.loginBack}>
-                    
-                    {props.isAuth ? props.login
+
+                    {props.isAuth ?
+                        <div>
+                            {props.login} - <button onClick={props.logout}>Log out</button>
+                        </div>
                         : <NavLink to={'./login'}>Login</NavLink>
                     }
                 </div>

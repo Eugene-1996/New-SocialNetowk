@@ -1,16 +1,15 @@
 import React, { ChangeEvent } from 'react';
 import style from './messages.module.css'
-import { DialogsType, MessagesType } from '../../../../App';
-import { addMessageAC, setNewMessageAC } from '../../../../redux/dialogs-reducer';
-import { ActionsTypes, RootStoreType } from '../../../../redux/redux-store';
+import { MessagesType } from '../../../../App';
+
+import { AddMessageReduxForm, FormDataType } from './MessagesReduxForm';
 
 type MessagesPropsType = {
     setNewMessage: (text: string) => void,
-    addNewMessage: () => void
+    addNewMessage: (newMessageBody: string) => void
     newMessage: string
     // dialogs: DialogsType[]
     messages: MessagesType[]
-
 }
 
 
@@ -25,26 +24,38 @@ const Messages = (props: MessagesPropsType) => {
         )
     })
 
-    const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget.value
-        props.setNewMessage(text)
-    }
+    // const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    //     let text = e.currentTarget.value
+    //     props.setNewMessage(text)
+    // }
 
-    const addMessage = () => {
-        props.addNewMessage()
+    // const addMessage = () => {
+    //     props.addNewMessage()
+    // }
+
+    const addNewMessage = (formData: FormDataType) => {
+        
+        props.addNewMessage(formData.newMessageBody)
+
     }
 
     return (
+        <>
         <div>
             <div className={style.allMessages}>
                 {messagesElements}
             </div>
             <div>
-                <textarea onChange={changeHandler} value={props.newMessage}></textarea>
-                <button onClick={addMessage}>add</button>
+                <div>
+                    <AddMessageReduxForm onSubmit={addNewMessage}/>
+                </div>
             </div>
         </div>
+        </>
     );
 };
+
+
+
 
 export default Messages;

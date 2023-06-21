@@ -4,11 +4,11 @@ import Dialogs from './Dialogs/Dialogs';
 import { Route } from 'react-router-dom';
 import Settings from './Settings/Settings';
 import { StateType } from '../../App';
-import { ActionsTypes, AppReduxStateType, RootStoreType } from '../../redux/redux-store';
 import DialogsContainer from './Dialogs/DialogsContainer';
 import UsersContainer from './Users/UserContainer';
 import ProfileContainer from './Profile/ProfileContainer';
 import Login from './Login/Login';
+import LoginContainer from './Login/LoginContainer';
 
 // type PostsType = {
 //     Posts : PostType[]
@@ -55,7 +55,8 @@ const Pages = (props: PagesPropsType) => {
         />} />
       <Route path='/main' render={() =>  <Settings />} />
       <Route path='/users' render={() => <UsersContainer />} />
-      <Route path='/login' render={() => <Login />}/>
+      <Route path='/login' render={() => <LoginContainer />}/>
+      {/* <Route path='/*'  exact render={() => <DialogsContainer/>}/> */}
     </div>
   );
 };

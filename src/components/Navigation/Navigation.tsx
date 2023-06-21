@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import style from './navigation.module.css'
 import { SideBarType } from '../../App';
 import SideBar from './SideBar/SideBar';
-import { ActionsTypes } from '../../redux/redux-store';
 import SideBarContainer from './SideBar/SideBarContainer';
 
 type NavigationPropsType = {

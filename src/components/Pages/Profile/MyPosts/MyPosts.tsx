@@ -1,19 +1,19 @@
 import React, { ChangeEvent } from 'react';
 import style from './myposts.module.css'
 import Post from './Post/Post';
-import { addPostAC, setNewPostAC } from '../../../../redux/profile-reducer';
-import { ActionsTypes } from '../../../../redux/redux-store';
+import { addPostAC } from '../../../../redux/profile-reducer';
 import { PostType } from '../../../../App';
+import { Field, InjectedFormProps, reduxForm } from 'redux-form';
+import MyPostsReduxForm, { FormDataType } from './MyPostsFormRedux';
 
 type MapDispatchToPropsType = {
-  setNewPost: (text: string) => void 
-  addNewPost: () => void
+  // setNewPost: (text: string) => void 
+  addNewPost: (newPostBody: string) => void
 }
 
 type MapStateToPropsType = {
  
     posts: PostType[]
-    newPost: string
   
 }
 
@@ -30,30 +30,35 @@ const MyPosts = (props: MyPostsPropsType) => {
 
   
 
-  const onChangeHandler = (e : ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.currentTarget.value 
-    //  props.dispatch(setNewPostAC(text))
-    props.setNewPost(text)
-  }
-  const addPostHandler = () => {
-    // props.dispatch(addPostAC())
-     props.addNewPost()  
-  }
+  // const onChangeHandler = (e : ChangeEvent<HTMLTextAreaElement>) => {
+  //   const text = e.currentTarget.value 
+  //   //  props.dispatch(setNewPostAC(text))
+  //   props.setNewPost(text)
+  // }
+  // const addPostHandler = () => {
+  //   // props.dispatch(addPostAC())
+  //    props.addNewPost()  
+  // }
 
+  const addNewPostHandler = (formData: FormDataType) => {
+    props.addNewPost(formData.newPostBody)
+  }
 
   return (
-    <div>
+    
       <div className={style.myposts}>
         <h4>My posts</h4>
         <div>
-          <textarea onChange={onChangeHandler} value={props.newPost}></textarea>
+         <MyPostsReduxForm onSubmit={addNewPostHandler}/>
         </div>
-        <button onClick={addPostHandler}>Add post</button>
-      </div>
       <div>
         {postsElements}
       </div>
     </div>
+    
   );
 };
+
+
+
 export default MyPosts;

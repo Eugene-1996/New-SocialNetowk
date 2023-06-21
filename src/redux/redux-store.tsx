@@ -1,28 +1,31 @@
 import { Store, applyMiddleware, combineReducers, createStore } from "redux";
-import profileReducer, { addPostAC, setNewPostAC, setUserProfileAC } from "./profile-reducer";
-import dialogsReducer, { addMessageAC, setNewMessageAC } from "./dialogs-reducer";
+import profileReducer, { ProfileActionsType, addPostAC, setUserProfileAC, setUserStatusAC } from "./profile-reducer";
+import dialogsReducer, { DialogsActionsType, addMessageAC } from "./dialogs-reducer";
 import sideBarReducer from "./sidebar-reducer";
-import thunkMiddleWare from 'redux-thunk'
-import { changeFollowingInProgress,  changeIsFetching, followUser,   setCurrentPage,   setTotalUsersCount,  setUsers,  unFollowUser, usersReducer } from "./users-reducer";
-import authReducer, { setAuthUserDataAC,  } from "./auth-reducer";
-
+import thunkMiddleWare, { ThunkAction } from 'redux-thunk'
+import { UsersActionsType, changeFollowingInProgress,  changeIsFetching, followUser,   setCurrentPage,   setTotalUsersCount,  setUsers,  unFollowUser, usersReducer } from "./users-reducer";
+import authReducer, { AuthActionsType, setAuthUserDataAC,  } from "./auth-reducer";
+//import {reducer as formReducer} from 'redux-form'
+import appReducer from "./app-reducer";
 
 let rootReducer = combineReducers({
     profileData: profileReducer, 
     dialogsData: dialogsReducer, 
     sideBarData: sideBarReducer,
     usersData: usersReducer,
-    authData: authReducer
+    authData: authReducer,
+    //form: formReducer,
+    app: appReducer
 })
 
 // type RootReducerType = typeof rootReducer
 export type AppReduxStateType = ReturnType< typeof rootReducer>
 
-export type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof setNewPostAC> | ReturnType<typeof addMessageAC> | ReturnType<typeof setNewMessageAC> | ReturnType<typeof unFollowUser> | ReturnType<typeof followUser> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof changeIsFetching> | ReturnType<typeof setUserProfileAC> | ReturnType<typeof setAuthUserDataAC> | ReturnType<typeof changeFollowingInProgress>
+export type AppActionsTypes = DialogsActionsType | ProfileActionsType |  UsersActionsType  | AuthActionsType
 
-export type RootStoreType = Store<AppReduxStateType, ActionsTypes>
+export type RootStoreType = Store<AppReduxStateType, AppActionsTypes>
 
-
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppReduxStateType, unknown, any>
 let store = createStore(rootReducer, 
     (applyMiddleware(thunkMiddleWare))
     )
